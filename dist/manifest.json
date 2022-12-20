@@ -1,0 +1,10 @@
+{
+  "manifest_version": 3,
+  "name": "TLive",
+  "description":"A twitch live channel viewier",
+  "version": "1.0",
+  "action":{
+    "default_popup":"popup.html"
+  }
+  
+}
