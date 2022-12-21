@@ -2,6 +2,7 @@ import React, { useContext, useState } from "react";
 import { useLocalStorageArray } from "./hooks/useLocalStorageArray";
 import { IoRemoveOutline } from "react-icons/io5";
 import { MdSlowMotionVideo } from "react-icons/md";
+import { TiMediaRecord } from "react-icons/ti";
 import { AppContext } from "./context/AppContext";
 function Channel({ channel }) {
   const [isHovered, setIsHovered] = useState(false);
@@ -11,14 +12,8 @@ function Channel({ channel }) {
     <div
       onMouseOver={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
-      // onClick={() =>
-      //   window.open(
-      //     `chrome-extension://bhplkbgoehhhddaoolmakpocnenplmhf/player.html?channel=${channel.display_name.toLowerCase()}`,
-      //     "_blank"
-      //   )
-      // }
       className={`${
-        !channel.is_live && "opacity-60 "
+        !channel.is_live && "opacity-30 hover:opacity-100 "
       } grid grid-cols-3  items-center relative space-x-2 bg-gray-600 p-2 rounded-xl cursor-pointer hover:shadow-xl transition-all duration-200 ease-in-ou`}
       style={{ height: "fit-content" }}
       title={channel.title}
@@ -51,15 +46,28 @@ function Channel({ channel }) {
           </div>
         </div>
       </div>
-      <div className="ml-4 grid grid-cols-2 self-start gap-2">
+      <div className="ml-4 grid grid-cols-1 self-start gap-2 w-12">
         <span
           onClick={() => {
             updateSelectedTab("vods");
             updateSelectedUuid(channel.id);
           }}
-          className="bg-white shadow-md p-1 rounded text-center flex flex-col text-[10px] items-center"
+          className="bg-[#9ECEB4] shadow-md p-1 rounded text-center flex flex-col text-[10px] items-center"
         >
           <MdSlowMotionVideo size={15} />
+        </span>
+        <span
+          onClick={() =>
+            window.open(
+              `chrome-extension://bhplkbgoehhhddaoolmakpocnenplmhf/player.html?channel=${channel.display_name.toLowerCase()}`,
+              "_blank"
+            )
+          }
+          className={`${
+            channel.is_live ? "visible " : "invisible "
+          }bg-[#9ECEB4] shadow-md p-1 rounded text-center flex flex-col text-[10px] items-center`}
+        >
+          <TiMediaRecord size={15} color="red" className="animate-pulse" />
         </span>
       </div>
       <span

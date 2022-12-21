@@ -12,6 +12,7 @@ import ContentTabs from "./ContentTabs";
 import FollowingTab from "./FollowingTab";
 import { TwitchAPI } from "./TwitchApi";
 import VodsTab from "./VodsTab";
+import { Switch } from "@blueprintjs/core";
 const twitchApi = new TwitchAPI();
 export const _envs = {
   CLIENT_ID: "glyuelrdyfb5jf5qejh4mwsucwrqhq",
@@ -41,6 +42,7 @@ function Popup() {
               ...ch.channelData,
               ...ch.streamData,
               thumbnail_url: ch.channelData.thumbnail_url,
+              id: ch.channelData.id,
             }))
           )
         )
@@ -54,7 +56,7 @@ function Popup() {
 
   return (
     <AppProvider>
-      <div className="bg-gray-700 max-w-[800px] px-4 min-h-screen">
+      <div className="bg-gray-700 min-w-[800px] px-4 min-h-screen">
         <div className="flex items-center ">
           <ToggleButton
             pauseUpdates={pauseUpdates}
@@ -77,6 +79,7 @@ function Popup() {
               id: "following",
               title: "Following",
               panel: <FollowingTab />,
+              disabled: true,
             },
             {
               id: "vods",
@@ -93,11 +96,26 @@ function Popup() {
 render(<Popup />, document.getElementById("root"));
 
 function SavedPanel({ loading, liveChannels }) {
+  const [hideOffline, setHideOffline] = useState(true);
   return (
     <>
       <SearchField />
+      <Switch
+        className="ml-4 text-gray-200 font-semibold outline-none"
+        checked={hideOffline}
+        label={!hideOffline ? "Hide offline" : "Show offline"}
+        onChange={() => setHideOffline(!hideOffline)}
+      />
       {loading && <LoadingSpinner text={"updating..."} />}
-      {liveChannels && <Channels channels={liveChannels} />}
+      {liveChannels && (
+        <Channels
+          channels={
+            hideOffline
+              ? liveChannels.filter((channel) => channel.is_live)
+              : liveChannels
+          }
+        />
+      )}
     </>
   );
 }

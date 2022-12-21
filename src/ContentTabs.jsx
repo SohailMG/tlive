@@ -16,7 +16,13 @@ function ContentTabs({ tabs }) {
       selectedTabId={selectedTab ?? "saved"}
     >
       {tabs.map((tab, i) => (
-        <Tab key={i} id={tab.id} title={tab.title} panel={tab.panel} />
+        <Tab
+          disabled={tab.disabled ?? false}
+          key={i}
+          id={tab.id}
+          title={tab.title}
+          panel={tab.panel}
+        />
       ))}
       <Tabs.Expander />
     </Tabs>
