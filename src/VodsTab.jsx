@@ -39,7 +39,7 @@ function VodsTab() {
             />
             <div className="text-white text-[10px]">
               <h3 className="whitespace-nowrap overflow-hidden">
-                {vod.title.length > 50 ? vod.title.slice(0, 50) : vod.title}
+                {vod.title.length > 40 ? vod.title.slice(0, 40) : vod.title}
               </h3>
               <p>{vod.duration}</p>
               <p>{vod.created_at}</p>
