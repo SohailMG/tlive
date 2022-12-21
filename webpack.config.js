@@ -55,7 +55,7 @@ module.exports = {
       filename: "popup.html",
     }),
     new CopyPlugin({
-      patterns: [{ from: "public" }],
+      patterns: [{ from: "public" }, "src/background.js"],
     }),
     new MiniCssExtractPlugin({
       filename: "css/[name].css",

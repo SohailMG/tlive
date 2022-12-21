@@ -15,5 +15,8 @@
     "16": "/icons/icons8-live-64.png",
     "84": "/icons/icons8-live-64.png",
     "128": "/icons/icons8-live-64.png"
+  },
+  "background": {
+    "service_worker": "background.js"
   }
 }
