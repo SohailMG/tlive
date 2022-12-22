@@ -25,9 +25,9 @@ const UPDATE_DELAY = 30000;
 const cachedList = window.localStorage.getItem("saved_channels");
 if (!cachedList) localStorage.setItem("saved_channels", JSON.stringify([]));
 
-chrome.runtime.sendMessage({ cachedList: cachedList }, function (response) {
-  console.log(response.message);
-});
+// chrome.runtime.sendMessage({ cachedList: cachedList }, function (response) {
+//   console.log(response.message);
+// });
 
 const vodId = new URLSearchParams(window.location.search).get("id");
 
