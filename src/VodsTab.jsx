@@ -33,7 +33,12 @@ function VodsTab() {
       {vods.length > 0 &&
         vods.map((vod) => (
           <div
-            onClick={() => window.open(vod.url, "_blank")}
+            onClick={() =>
+              window.open(
+                `https://sohailmg.github.io/tlive/player.html?id=${vod.id}`,
+                "_blank"
+              )
+            }
             key={vod.id}
             className="flex space-x-2 hover:bg-gray-600 cursor-pointer p-2 transition-all transform duration-150 ease-in-out"
           >
