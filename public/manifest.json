@@ -3,6 +3,7 @@
   "name": "TLive",
   "description": "A twitch live channel viewier",
   "version": "1.0",
+  "permissions": ["storage"],
   "action": {
     "default_popup": "popup.html",
     "default_icon": {
@@ -17,6 +18,7 @@
     "128": "/icons/icons8-live-64.png"
   },
   "background": {
-    "service_worker": "background.js"
+    "service_worker": "background.js",
+    "type": "module"
   }
 }

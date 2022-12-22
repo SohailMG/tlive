@@ -25,6 +25,10 @@ const UPDATE_DELAY = 30000;
 const cachedList = window.localStorage.getItem("saved_channels");
 if (!cachedList) localStorage.setItem("saved_channels", JSON.stringify([]));
 
+chrome.runtime.sendMessage({ cachedList: cachedList }, function (response) {
+  console.log(response.message);
+});
+
 const vodId = new URLSearchParams(window.location.search).get("id");
 
 function Popup() {
@@ -67,7 +71,7 @@ function SavedPanel({ loading, liveChannels }) {
   );
 }
 
-async function getLiveChannels(channels) {
+export async function getLiveChannels(channels) {
   console.log("fetching live channels");
   // const bearer = await twitchApi.getToken();
   const liveChannels = await Promise.all(
