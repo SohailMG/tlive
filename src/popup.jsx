@@ -13,6 +13,7 @@ import FollowingTab from "./FollowingTab";
 import { TwitchAPI } from "./TwitchApi";
 import VodsTab from "./VodsTab";
 import { Switch } from "@blueprintjs/core";
+
 const twitchApi = new TwitchAPI();
 export const _envs = {
   CLIENT_ID: "glyuelrdyfb5jf5qejh4mwsucwrqhq",
@@ -24,73 +25,19 @@ const UPDATE_DELAY = 30000;
 const cachedList = window.localStorage.getItem("saved_channels");
 if (!cachedList) localStorage.setItem("saved_channels", JSON.stringify([]));
 
+const vodId = new URLSearchParams(window.location.search).get("id");
+
 function Popup() {
-  const [liveChannels, setLiveChannels] = React.useState([]);
-  const [pauseUpdates, setPauseUpdates] = React.useState(true);
-  const [loading, setLoading] = React.useState(false);
-  const [items] = useLocalStorageArray("saved_channels");
-  const [countdown, resetCountdown] = useInterval(
-    async () => {
-      setLoading(true);
-      console.log("updating channels");
-      const data = await getLiveChannels(items ?? []);
+  const [selectedPage, setSelectedPage] = useState("popup");
 
-      setLiveChannels(
-        Array.from(
-          new Set(
-            data.map((ch) => ({
-              ...ch.channelData,
-              ...ch.streamData,
-              thumbnail_url: ch.channelData.thumbnail_url,
-              id: ch.channelData.id,
-            }))
-          )
-        )
-      );
-      setLoading(false);
-    },
-    UPDATE_DELAY,
-    pauseUpdates,
-    items
-  );
+  function renderPage(page) {
+    switch (page) {
+      case "popup":
+        return <PopupPage />;
+    }
+  }
 
-  return (
-    <AppProvider>
-      <div className="bg-gray-700 min-w-[800px] px-4 min-h-screen">
-        <div className="flex items-center ">
-          <ToggleButton
-            pauseUpdates={pauseUpdates}
-            setPauseUpdates={setPauseUpdates}
-          />
-          <small className="text-gray-400 m-4">
-            {!pauseUpdates ? `updating in ${countdown}` : "Updates paused"}
-          </small>
-        </div>
-        <ContentTabs
-          tabs={[
-            {
-              id: "saved",
-              title: "Saved",
-              panel: (
-                <SavedPanel liveChannels={liveChannels} loading={loading} />
-              ),
-            },
-            {
-              id: "following",
-              title: "Following",
-              panel: <FollowingTab />,
-              disabled: true,
-            },
-            {
-              id: "vods",
-              title: "Vods",
-              panel: <VodsTab />,
-            },
-          ]}
-        />
-      </div>
-    </AppProvider>
-  );
+  return <AppProvider>{renderPage(selectedPage)}</AppProvider>;
 }
 
 render(<Popup />, document.getElementById("root"));
@@ -131,4 +78,69 @@ async function getLiveChannels(channels) {
     })
   );
   return liveChannels;
+}
+
+function PopupPage() {
+  const [liveChannels, setLiveChannels] = React.useState([]);
+  const [pauseUpdates, setPauseUpdates] = React.useState(true);
+  const [loading, setLoading] = React.useState(false);
+  const [items] = useLocalStorageArray("saved_channels");
+  const [countdown, resetCountdown] = useInterval(
+    async () => {
+      setLoading(true);
+      console.log("updating channels");
+      const data = await getLiveChannels(items ?? []);
+
+      setLiveChannels(
+        Array.from(
+          new Set(
+            data.map((ch) => ({
+              ...ch.channelData,
+              ...ch.streamData,
+              thumbnail_url: ch.channelData.thumbnail_url,
+              id: ch.channelData.id,
+            }))
+          )
+        )
+      );
+      setLoading(false);
+    },
+    UPDATE_DELAY,
+    pauseUpdates,
+    items
+  );
+
+  return (
+    <div className="bg-gray-700 min-w-[800px] px-4 min-h-screen">
+      <div className="flex items-center ">
+        <ToggleButton
+          pauseUpdates={pauseUpdates}
+          setPauseUpdates={setPauseUpdates}
+        />
+        <small className="text-gray-400 m-4">
+          {!pauseUpdates ? `updating in ${countdown}` : "Updates paused"}
+        </small>
+      </div>
+      <ContentTabs
+        tabs={[
+          {
+            id: "saved",
+            title: "Saved",
+            panel: <SavedPanel liveChannels={liveChannels} loading={loading} />,
+          },
+          {
+            id: "following",
+            title: "Following",
+            panel: <FollowingTab />,
+            disabled: true,
+          },
+          {
+            id: "vods",
+            title: "Vods",
+            panel: <VodsTab />,
+          },
+        ]}
+      />
+    </div>
+  );
 }

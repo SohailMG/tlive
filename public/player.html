@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Player</title>
+  </head>
+  <body
+    style="width: 100%; height: 100vh; padding: 0; margin: 0; overflow: hidden"
+  >
+    <iframe
+      id="twitch-iframe"
+      src=""
+      height="100%"
+      width="100%"
+      allowfullscreen
+    >
+    </iframe>
+
+    <script>
+      let url = window.location.search;
+
+      // Create a new URLSearchParams object from the URL
+      let params = new URLSearchParams(url);
+
+      // Get the value of the "channel" parameter
+      let id = params.get("id");
+      console.log(id);
+
+      // Use the channel value to construct the src attribute of the iframe
+      let iframeSrc = `https://player.twitch.tv/?video=${id}&parent=localhost&muted=true`;
+      document.getElementById("twitch-iframe").src = iframeSrc;
+    </script>
+  </body>
+</html>
