@@ -1,16 +1,16 @@
 import React, { useContext, useState } from "react";
-import { useLocalStorageArray } from "./hooks/useLocalStorageArray";
 import { IoRemoveOutline } from "react-icons/io5";
 import { IoIosRemoveCircle } from "react-icons/io";
 import { MdSlowMotionVideo } from "react-icons/md";
 import { TiMediaRecord } from "react-icons/ti";
 import { FaPhotoVideo } from "react-icons/fa";
 import { AppContext } from "./context/AppContext";
+import { auth, removeChannelsFromDb } from "./firebase";
+import { useAuthState } from "react-firebase-hooks/auth";
 function Channel({ channel }) {
   const [isHovered, setIsHovered] = useState(false);
-  const [value, addItem, removeItem] = useLocalStorageArray("saved_channels");
   const { updateSelectedTab, updateSelectedUuid } = useContext(AppContext);
-
+  const [user] = useAuthState(auth);
   return (
     <tr className="text-center">
       <td className="hover:bg-gray-500 px-5 py-5 border-b border-gray-700 bg-gray-600 text-sm font-semibold">
@@ -74,7 +74,12 @@ function Channel({ channel }) {
         </span>
       </td>
       <td
-        onClick={() => removeItem(channel.display_name.toLowerCase())}
+        onClick={() =>
+          removeChannelsFromDb(user.uid, {
+            channelName: channel.display_name.toLowerCase(),
+            channelId: channel.id,
+          })
+        }
         className="hover:bg-gray-500 px-5 py-5 border-b border-gray-700 bg-gray-600 text-sm cursor-pointer"
       >
         <span className="flex items-center justify-center">

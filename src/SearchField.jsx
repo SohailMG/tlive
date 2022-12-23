@@ -1,11 +1,27 @@
-import React, { useEffect, useState } from "react";
-import { useLocalStorageArray } from "./hooks/useLocalStorageArray";
+import React, { useContext, useEffect, useState } from "react";
 import { TwitchAPI } from "./TwitchApi";
+import { addToDb, auth } from "./firebase";
+import { AppContext } from "./context/AppContext";
+import { useAuthState } from "react-firebase-hooks/auth";
+
 const twitchApi = new TwitchAPI();
 function SearchField({ onResultsClick }) {
+  const [user, loading, error] = useAuthState(auth);
   const [searchQuery, setSearchQuery] = useState("");
   const [searchResults, setSearchResults] = useState([]);
-  const [value, addItem, removeItem] = useLocalStorageArray("saved_channels");
+  const [deboune, setDeboune] = useState(1000);
+
+  useEffect(() => {
+    clearTimeout(deboune);
+
+    // Set a new timeout to call the function after 2 seconds
+    setDeboune(
+      setTimeout(() => {
+        // Your function goes here
+        handleSubmit({ key: "Enter" });
+      }, 1000)
+    );
+  }, [searchQuery]);
 
   function handleSubmit(e) {
     if (e.key === "Enter") {
@@ -25,7 +41,7 @@ function SearchField({ onResultsClick }) {
       setSearchQuery("");
       setSearchResults([]);
     } else {
-      addItem(channel.display_name.toLowerCase());
+      addToDb(user.uid, channel.id, channel.display_name.toLowerCase());
       setSearchQuery("");
       setSearchResults([]);
     }
@@ -39,7 +55,7 @@ function SearchField({ onResultsClick }) {
           onKeyDown={handleSubmit}
           type="text"
           placeholder="search channel..."
-          className="px-4 rounded py-1 text-left bg-gray-600"
+          className="px-4 rounded py-1 text-left bg-gray-600 text-white"
         />
         {searchResults.length > 0 && (
           <div className="absolute w-full h-fit bg-white mt-1 px-2 z-50">

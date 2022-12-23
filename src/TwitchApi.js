@@ -107,10 +107,16 @@ export class TwitchAPI {
     );
   }
 
-  async getVods(userId) {
+  async getVods(userId, pagination) {
+    console.log(
+      "GET: ",
+      `https://api.twitch.tv/helix/videos?user_id=${userId}?first=20$`
+    );
     try {
       const response = await fetch(
-        `https://api.twitch.tv/helix/videos?user_id=${userId}`,
+        `https://api.twitch.tv/helix/videos?user_id=${userId}?first=20${
+          pagination ? "&after=" + pagination : ""
+        }`,
         {
           headers: {
             "Client-Id": this.clientId,
