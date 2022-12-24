@@ -53,6 +53,7 @@ render(<Popup />, document.getElementById("root"));
 
 function SavedPanel({ loading, liveChannels }) {
   const [hideOffline, setHideOffline] = useState(true);
+console.log(liveChannels)
   return (
     <>
       <SearchField />
@@ -69,7 +70,7 @@ function SavedPanel({ loading, liveChannels }) {
             hideOffline
               ? liveChannels
                   .filter((channel) => channel.is_live)
-                  .sort((a, b) => a.view_count - b.view_count)
+                  .sort((a, b) => b.viewer_count - a.viewer_count)
               : liveChannels
           }
         />
