@@ -12,10 +12,12 @@
     </div>
 
     <script>
-      window.open(
-        `chrome-extension://mfeagiconilejhgihdcajokcbjikhmio/popup.html${window.location.hash}&tab=following`,
-        "_self"
-      );
+      const redirectUrl = `chrome-extension://mfeagiconilejhgihdcajokcbjikhmio/popup.html${window.location.hash}&tab=following`;
+      console.log(redirectUrl);
+      //   window.open(
+      //     `chrome-extension://mfeagiconilejhgihdcajokcbjikhmio/popup.html${window.location.hash}&tab=following`,
+      //     "_self"
+      //   );
     </script>
   </body>
 </html>
