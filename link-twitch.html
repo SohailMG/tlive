@@ -12,7 +12,10 @@
     </div>
 
     <script>
-      window.location = `chrome-extension://mfeagiconilejhgihdcajokcbjikhmio/popup.html${window.location.hash}&tab=following`;
+      window.open(
+        `chrome-extension://mfeagiconilejhgihdcajokcbjikhmio/popup.html${window.location.hash}&tab=following`,
+        "_self"
+      );
     </script>
   </body>
 </html>
