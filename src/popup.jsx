@@ -67,7 +67,9 @@ function SavedPanel({ loading, liveChannels }) {
         <Channels
           channels={
             hideOffline
-              ? liveChannels.filter((channel) => channel.is_live)
+              ? liveChannels
+                  .filter((channel) => channel.is_live)
+                  .sort((a, b) => a.view_count - b.view_count)
               : liveChannels
           }
         />

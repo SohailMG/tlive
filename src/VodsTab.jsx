@@ -121,7 +121,7 @@ function daysFrom(str) {
   return `${days} days ago`;
 }
 
-function readableFormat(number) {
+export function readableFormat(number) {
   if (number >= 1000) {
     // Divide the number by 1000 and add a "k" suffix
     return (number / 1000).toFixed(1) + "k";

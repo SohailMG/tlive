@@ -7,6 +7,7 @@ import { FaPhotoVideo } from "react-icons/fa";
 import { AppContext } from "./context/AppContext";
 import { auth, removeChannelsFromDb } from "./firebase";
 import { useAuthState } from "react-firebase-hooks/auth";
+import { readableFormat } from "./VodsTab";
 function Channel({ channel }) {
   const [isHovered, setIsHovered] = useState(false);
   const { updateSelectedTab, updateSelectedUuid } = useContext(AppContext);
@@ -22,15 +23,20 @@ function Channel({ channel }) {
               alt=""
             />
           </div>
-          <div className="ml-3">
-            <p className="text-gray-200 whitespace-no-wrap">
-              {channel.display_name}
+          <div className="ml-3 max-w-[200px] text-left">
+            <p className="text-[#9370DB] whitespace-no-wrap font-bold">
+              {channel.display_name} <br />{" "}
+              <small className="font-light text-gray-300">
+                {channel.title}
+              </small>
             </p>
           </div>
         </div>
       </td>
       <td className="hover:bg-gray-500 px-5 py-5 border-b border-gray-700 bg-gray-600 text-sm">
-        <p className="text-gray-200 whitespace-no-wrap">{channel.game_name}</p>
+        <p className="text-[#9370DB] whitespace-no-wrap font-bold">
+          {channel.game_name}
+        </p>
       </td>
       <td
         onClick={() =>
@@ -52,13 +58,13 @@ function Channel({ channel }) {
               channel.is_live ? "bg-red-900" : "bg-gray-200"
             } opacity-50 rounded-full`}
           ></span>
-          <span className="relative cursor-pointer">
+          <span className="relative cursor-pointer animate-pulse">
             <span
               className={`${
                 !channel.is_live ? "" : "bg-red-500"
               } w-2 inline-flex h-2 mr-1 animate-pulse rounded-full`}
             ></span>
-            {channel.viewer_count ?? "Offline"}
+            {readableFormat(channel.viewer_count) ?? "Offline"}
           </span>
         </span>
       </td>
