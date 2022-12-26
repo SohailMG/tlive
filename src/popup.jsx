@@ -17,6 +17,7 @@ import { onAuthStateChanged, signInAnonymously, signOut } from "firebase/auth";
 import AuthWrapper from "./AuthWrapper";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { doc, onSnapshot } from "firebase/firestore";
+import { FaUserAlt } from "react-icons/fa";
 
 const twitchApi = new TwitchAPI();
 export const _envs = {
@@ -53,7 +54,7 @@ render(<Popup />, document.getElementById("root"));
 
 function SavedPanel({ loading, liveChannels }) {
   const [hideOffline, setHideOffline] = useState(true);
-console.log(liveChannels)
+  console.log(liveChannels);
   return (
     <>
       <SearchField />
@@ -66,6 +67,7 @@ console.log(liveChannels)
       {/* {loading && <LoadingSpinner text={"updating..."} />} */}
       {liveChannels && (
         <Channels
+          loading={loading}
           channels={
             hideOffline
               ? liveChannels
@@ -134,22 +136,17 @@ function PopupPage() {
 
     return () => unsub();
   }, []);
-
   return (
     <div className="bg-gray-700 min-w-[800px] px-4 min-h-screen">
-      <div className="flex items-center space-x-2">
-        <div className="flex items-center ">
-          <ToggleButton
-            pauseUpdates={pauseUpdates}
-            setPauseUpdates={setPauseUpdates}
-          />
-          <small className="text-gray-400 m-4">
-            {!pauseUpdates ? `updating in ${countdown}` : "Updates paused"}
+      <div className="flex items-center space-x-2 m-4">
+        <div className="flex items-center space-x-2">
+          <small className="text-gray-400">
+            <b className="text-gray-200">Account: </b> {user.email}
           </small>
         </div>
         <button
           onClick={() => signOut(auth)}
-          className="bg-red-200 px-2 py-1 rounded-md"
+          className="bg-red-500 text-white text-xs px-2 py-1 rounded-md"
         >
           Sign out
         </button>

@@ -1,8 +1,23 @@
 import React from "react";
 import Channel from "./Channel";
 import { Button, Spinner } from "@blueprintjs/core";
-const rows = ["Channel", "Game", "Status", "Vods", "Remove"];
-const Channels = ({ channels }) => {
+const rows = ["Channel", "Category", "Status", "Vods", "Remove"];
+const Channels = ({ channels, loading }) => {
+  if (loading)
+    return (
+      <div className="flex items-center justify-center text-green-200">
+        fetching...
+      </div>
+    );
+
+  if (channels.length === 0 && !loading) {
+    return (
+      <div className="flex items-center justify-center text-green-200">
+        No live channels available
+      </div>
+    );
+  }
+
   return (
     <div className="-mx-4 sm:-mx-8 px-4 sm:px-8 py-4 overflow-x-auto">
       <div className="inline-block min-w-full shadow rounded-lg overflow-hidden">
