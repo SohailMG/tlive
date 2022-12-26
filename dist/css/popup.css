@@ -14072,8 +14072,17 @@ video {
 .min-w-full {
   min-width: 100%;
 }
+.min-w-\[850px\] {
+  min-width: 850px;
+}
 .max-w-\[200px\] {
   max-width: 200px;
+}
+.max-w-\[815px\] {
+  max-width: 815px;
+}
+.max-w-\[800px\] {
+  max-width: 800px;
 }
 .flex-shrink-0 {
   flex-shrink: 0;
