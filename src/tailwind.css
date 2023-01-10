@@ -8,7 +8,7 @@
 
 body {
   overflow-x: hidden;
-  background-color: #374151;
+  background-color: #23142f;
 }
 
 .ellipse-text {
@@ -26,12 +26,12 @@ body {
   outline: none;
 }
 .bp4-tab[aria-selected="true"] {
-  color: #9eceb4;
+  color: whitesmoke;
 }
 .bp4-tab[aria-selected="true"],
 .bp4-tab:not([aria-disabled="true"]):hover {
-  color: #9eceb4;
+  color: whitesmoke;
 }
 .bp4-tab-indicator-wrapper .bp4-tab-indicator {
-  background-color: #9eceb4;
+  background-color: whitesmoke;
 }

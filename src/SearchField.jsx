@@ -55,7 +55,7 @@ function SearchField({ onResultsClick }) {
           onKeyDown={handleSubmit}
           type="text"
           placeholder="search channel..."
-          className="px-4 rounded py-1 text-left bg-gray-600 text-white"
+          className="px-4  py-1 text-left bg-transparent border-b-[5px] border-[#4B0082] outline-none text-white"
         />
         {searchResults.length > 0 && (
           <div className="absolute w-full h-fit bg-white mt-1 px-2 z-50">

@@ -74,13 +74,26 @@ export async function getChannelsFromDb(uuid) {
   } catch (error) {}
 }
 
-export async function removeChannelsFromDb(uuid, channelData) {
+export async function removeChannelFromDb(uuid, channelData) {
   try {
     const docRef = doc(db, "channels", uuid);
     const docSnap = await getDoc(docRef);
     if (docSnap.exists()) {
       await updateDoc(docRef, {
         savedChannels: arrayRemove(channelData),
+      });
+    }
+  } catch (error) {
+    console.log(error);
+  }
+}
+export async function removeChannelsFromDb(uuid, channelData) {
+  try {
+    const docRef = doc(db, "channels", uuid);
+    const docSnap = await getDoc(docRef);
+    if (docSnap.exists()) {
+      await updateDoc(docRef, {
+        savedChannels: arrayRemove(...channelData),
       });
     }
   } catch (error) {

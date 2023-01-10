@@ -60,7 +60,7 @@ function AuthWrapper({ children }) {
 
   if (loading)
     return (
-      <div className="bg-gray-700 min-w-[800px] px-4 min-h-screen flex items-center justify-center flex-col space-y-4">
+      <div className="min-w-[800px] px-4 min-h-screen flex items-center justify-center flex-col space-y-4">
         <h2 className="text-white font-bold">Please wait...</h2>
         <Spinner size={20} intent="primary" />
       </div>
@@ -69,7 +69,7 @@ function AuthWrapper({ children }) {
   if (user) return <>{children}</>;
 
   return (
-    <div className="bg-gray-700 min-w-[800px] px-4 min-h-screen flex items-center justify-center flex-col space-y-4">
+    <div className=" min-w-[800px] px-4 min-h-screen flex items-center justify-center flex-col space-y-4">
       <Tabs
         className="min-w-[400px]"
         id="LoginTabs"
@@ -155,6 +155,7 @@ function SignUpForm({
           onClick={handleSignUp}
           rightIcon="arrow-right"
           intent="success"
+          style={{ background: "indigo" }}
           text="Sign Up"
         />
       </div>
@@ -207,6 +208,7 @@ function SignInForm({
           onClick={handleSignIn}
           rightIcon="arrow-right"
           intent="success"
+          style={{ background: "indigo" }}
           text="Sign in"
         />
       </div>

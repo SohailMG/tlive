@@ -12,7 +12,13 @@ import FollowingTab from "./FollowingTab";
 import { TwitchAPI } from "./TwitchApi";
 import VodsTab from "./VodsTab";
 import { Switch } from "@blueprintjs/core";
-import { auth, app, getChannelsFromDb, db } from "./firebase";
+import {
+  auth,
+  app,
+  removeChannelFromDb,
+  db,
+  removeChannelsFromDb,
+} from "./firebase";
 import { onAuthStateChanged, signInAnonymously, signOut } from "firebase/auth";
 import AuthWrapper from "./AuthWrapper";
 import { useAuthState } from "react-firebase-hooks/auth";
@@ -54,20 +60,51 @@ render(<Popup />, document.getElementById("root"));
 
 function SavedPanel({ loading, liveChannels }) {
   const [hideOffline, setHideOffline] = useState(true);
-  console.log(liveChannels);
+  const [hideCheckBox, setHideCheckbox] = useState(true);
+  const { removeBatch, updateRemoveBatch } = useContext(AppContext);
+  const [user] = useAuthState(auth);
+
+  async function handleRemove() {
+    await removeChannelsFromDb(user.uid, removeBatch);
+    updateRemoveBatch({ action: "clear" });
+  }
+
+  useEffect(() => {
+    if (hideCheckBox === true) {
+      updateRemoveBatch({ action: "clear" });
+    }
+  }, [hideCheckBox]);
+
   return (
     <>
       <SearchField />
-      <Switch
-        className="ml-4 text-gray-200 font-semibold outline-none"
-        checked={hideOffline}
-        label={!hideOffline ? "Hide offline" : "Show offline"}
-        onChange={() => setHideOffline(!hideOffline)}
-      />
+      <div className="flex items-center space-x-2">
+        <Switch
+          className="ml-4 text-gray-200 font-semibold outline-none"
+          checked={hideOffline}
+          label={!hideOffline ? "Hide offline" : "Show offline"}
+          onChange={() => setHideOffline(!hideOffline)}
+        />
+        <Switch
+          className="ml-4 text-gray-200 font-semibold outline-none"
+          checked={hideCheckBox}
+          label={"Remove"}
+          onChange={() => setHideCheckbox(!hideCheckBox)}
+        />
+      </div>
+      {removeBatch.length > 0 && (
+        <button
+          onClick={handleRemove}
+          className="bg-red-500 text-white rounded shadow px-2 py-1 m-2"
+        >
+          Remove selected{" "}
+        </button>
+      )}
       {/* {loading && <LoadingSpinner text={"updating..."} />} */}
       {liveChannels && (
         <Channels
           loading={loading}
+          hideCheckBox={hideCheckBox}
           channels={
             hideOffline
               ? liveChannels
@@ -100,7 +137,7 @@ function PopupPage() {
   const [liveChannels, setLiveChannels] = React.useState([]);
   const [pauseUpdates, setPauseUpdates] = React.useState(true);
   const [savedChannels, setSavedChannels] = React.useState([]);
-  const [loading, setLoading] = React.useState(false);
+  const [loading, setLoading] = React.useState(true);
   const [user] = useAuthState(auth);
   useEffect(() => {
     (async () => {
@@ -137,7 +174,7 @@ function PopupPage() {
     return () => unsub();
   }, []);
   return (
-    <div className="bg-gray-700 min-w-[850px] px-4 min-h-screen">
+    <div className="bg-[#23142F] min-w-[850px] px-4 min-h-screen">
       <div className="flex items-center space-x-2 m-4">
         <div className="flex items-center space-x-2">
           <small className="text-gray-400">
