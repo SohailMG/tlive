@@ -19,28 +19,10 @@ const Channels = ({ channels, loading }) => {
   }
 
   return (
-    <div className="-mx-4 sm:-mx-8 px-4 sm:px-8 py-4 overflow-x-auto max-w-[815px]">
-      <div className="inline-block min-w-full shadow rounded-lg overflow-hidden">
-        <table className="min-w-full leading-normal">
-          <thead>
-            <tr>
-              {rows.map((row, i) => (
-                <th
-                  key={i}
-                  className="px-5 py-3 border-b-2 border-gray-700 bg-gray-600 text-center text-xs font-semibold text-green-200 uppercase tracking-wider"
-                >
-                  {row}
-                </th>
-              ))}
-            </tr>
-          </thead>
-          <tbody>
-            {channels.map((channel, i) => (
-              <Channel key={i} channel={channel} />
-            ))}
-          </tbody>
-        </table>
-      </div>
+    <div className="flex flex-wrap">
+      {channels.map((channel) => (
+        <Channel channel={channel} />
+      ))}
     </div>
   );
 };
