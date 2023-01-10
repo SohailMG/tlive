@@ -174,7 +174,7 @@ function PopupPage() {
     return () => unsub();
   }, []);
   return (
-    <div className="bg-[#23142F] min-w-[850px] px-4 min-h-screen">
+    <div className="bg-[#23142F] min-w-max px-4 min-h-screen">
       <div className="flex items-center space-x-2 m-4">
         <div className="flex items-center space-x-2">
           <small className="text-gray-400">
