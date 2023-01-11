@@ -61,7 +61,7 @@ function VodsTab() {
                 className="p-2 text-red-500 rounded"
                 style={{ background: "indigo" }}
               >
-                <h3>{daysFrom(vod.created_at)}</h3>
+                <h3>{daysFrom(vod.created_at)} ago</h3>
                 <p className="text-white">
                   {readableFormat(Number(vod.view_count)) + " views"}
                 </p>
@@ -76,19 +76,37 @@ function VodsTab() {
 
 export default VodsTab;
 
-function daysFrom(str) {
-  const date = new Date(str);
-  // Get the current date
-  const currentDate = new Date();
+export function daysFrom(date, format = "default") {
+  const intervals = {
+    year: 31536000,
+    month: 2592000,
+    day: 86400,
+    hour: 3600,
+    minute: 60,
+    second: 1,
+  };
 
-  // Calculate the difference between the two dates in milliseconds
-  const diff = currentDate - date;
+  const seconds = Math.floor((new Date() - new Date(date)) / 1000);
 
-  // Convert the difference to days by dividing it by the number of milliseconds in a day
-  const days = Math.round(diff / (1000 * 60 * 60 * 24));
-  if (days === 0) return "Today";
-  if (days === 1) return "Yesterday";
-  return `${days} days ago`;
+  if (format === "hh:mm:ss") {
+    let hour = Math.floor(seconds / 3600);
+    let minute = Math.floor((seconds % 3600) / 60);
+    let second = seconds % 60;
+
+    return `${hour.toString().padStart(2, "0")}:${minute
+      .toString()
+      .padStart(2, "0")}:${second.toString().padStart(2, "0")}`;
+  } else {
+    let interval, result;
+    for (const key in intervals) {
+      interval = Math.floor(seconds / intervals[key]);
+      if (interval >= 1) {
+        result = `${interval} ${key}${interval > 1 ? "s" : ""}`;
+        break;
+      }
+    }
+    return result;
+  }
 }
 
 export function readableFormat(number) {

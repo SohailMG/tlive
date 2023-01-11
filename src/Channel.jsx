@@ -8,7 +8,7 @@ import { FaPhotoVideo } from "react-icons/fa";
 import { AppContext } from "./context/AppContext";
 import { auth, removeChannelFromDb } from "./firebase";
 import { useAuthState } from "react-firebase-hooks/auth";
-import { readableFormat } from "./VodsTab";
+import { daysFrom, readableFormat } from "./VodsTab";
 function Channel({ channel, hideCheckBox }) {
   const [isHovered, setIsHovered] = useState(false);
   const {
@@ -84,6 +84,9 @@ function Channel({ channel, hideCheckBox }) {
                 <b className="text-red-500 font-bold">
                   {readableFormat(channel.viewer_count)}
                 </b>{" "}
+                <p className="text-gray-400 text-[10px] ml-2">
+                  {daysFrom(channel.started_at, "hh:mm:ss")}
+                </p>
               </div>
             ) : (
               <></>
