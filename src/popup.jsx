@@ -1,29 +1,20 @@
-import React, { useState, useEffect, useContext } from "react";
+import { Switch } from "@blueprintjs/core";
+import { signOut } from "firebase/auth";
+import { doc, onSnapshot } from "firebase/firestore";
+import React, { useContext, useEffect, useState } from "react";
 import { render } from "react-dom";
-import "./tailwind.css";
+import { useAuthState } from "react-firebase-hooks/auth";
+import AuthWrapper from "./AuthWrapper";
 import Channels from "./Channels";
-import ToggleButton from "./Toggle";
-import SearchField from "./SearchField";
-import { useInterval } from "./hooks/useInterval";
-import { AppContext, AppProvider } from "./context/AppContext";
-import LoadingSpinner from "./LoadingSpinner";
+import { BiGridHorizontal, BiGridSmall } from "react-icons/bi";
 import ContentTabs from "./ContentTabs";
 import FollowingTab from "./FollowingTab";
+import SearchField from "./SearchField";
 import { TwitchAPI } from "./TwitchApi";
 import VodsTab from "./VodsTab";
-import { Switch } from "@blueprintjs/core";
-import {
-  auth,
-  app,
-  removeChannelFromDb,
-  db,
-  removeChannelsFromDb,
-} from "./firebase";
-import { onAuthStateChanged, signInAnonymously, signOut } from "firebase/auth";
-import AuthWrapper from "./AuthWrapper";
-import { useAuthState } from "react-firebase-hooks/auth";
-import { doc, onSnapshot } from "firebase/firestore";
-import { FaUserAlt } from "react-icons/fa";
+import { AppContext, AppProvider } from "./context/AppContext";
+import { auth, db, removeChannelsFromDb } from "./firebase";
+import "./tailwind.css";
 
 const twitchApi = new TwitchAPI();
 export const _envs = {
@@ -61,6 +52,7 @@ render(<Popup />, document.getElementById("root"));
 function SavedPanel({ loading, liveChannels }) {
   const [hideOffline, setHideOffline] = useState(true);
   const [hideCheckBox, setHideCheckbox] = useState(true);
+  const [selectedLayout, setSelectedLayout] = useState(2);
   const { removeBatch, updateRemoveBatch } = useContext(AppContext);
   const [user] = useAuthState(auth);
 
@@ -80,16 +72,20 @@ function SavedPanel({ loading, liveChannels }) {
       <SearchField />
       <div className="flex items-center space-x-2">
         <Switch
-          className="ml-4 text-gray-200 font-semibold outline-none"
+          className="ml-4 text-gray-200 font-semibold outline-none mb-0"
           checked={hideOffline}
           label={!hideOffline ? "Hide offline" : "Show offline"}
           onChange={() => setHideOffline(!hideOffline)}
         />
         <Switch
-          className="ml-4 text-gray-200 font-semibold outline-none"
+          className="ml-4 text-gray-200 font-semibold outline-none mb-0"
           checked={hideCheckBox}
           label={"Remove"}
           onChange={() => setHideCheckbox(!hideCheckBox)}
+        />
+        <LayoutGrids
+          selectedLayout={selectedLayout}
+          setSelectedLayout={setSelectedLayout}
         />
       </div>
       {removeBatch.length > 0 && (
@@ -103,6 +99,7 @@ function SavedPanel({ loading, liveChannels }) {
       {/* {loading && <LoadingSpinner text={"updating..."} />} */}
       {liveChannels && (
         <Channels
+          selectedLayout={selectedLayout}
           loading={loading}
           hideCheckBox={hideCheckBox}
           channels={
@@ -117,6 +114,29 @@ function SavedPanel({ loading, liveChannels }) {
     </>
   );
 }
+
+export const LayoutGrids = ({ selectedLayout, setSelectedLayout }) => {
+  const grids = [
+    { num: 2, Icon: BiGridSmall },
+    { num: 3, Icon: BiGridHorizontal },
+  ];
+  return (
+    <div className="flex items-center ml-6">
+      {grids.map(({ Icon, num }) => (
+        <div
+          onClick={() => setSelectedLayout(num)}
+          className="p-1 cursor-pointer"
+        >
+          <Icon
+            size={24}
+            color={selectedLayout === num ? "white" : "darkGray"}
+            key={num}
+          />
+        </div>
+      ))}
+    </div>
+  );
+};
 
 export async function getLiveChannels(channels) {
   console.log("fetching live channels : ", channels);
@@ -137,6 +157,7 @@ function PopupPage() {
   const [liveChannels, setLiveChannels] = React.useState([]);
   const [pauseUpdates, setPauseUpdates] = React.useState(true);
   const [savedChannels, setSavedChannels] = React.useState([]);
+  const { selectedUuid } = useContext(AppContext);
   const [loading, setLoading] = React.useState(true);
   const [user] = useAuthState(auth);
   useEffect(() => {
@@ -195,16 +216,17 @@ function PopupPage() {
             title: "Saved",
             panel: <SavedPanel liveChannels={liveChannels} loading={loading} />,
           },
-          {
-            id: "following",
-            title: "Following",
-            panel: <FollowingTab />,
-            disabled: true,
-          },
+          // {
+          //   id: "following",
+          //   title: "Following",
+          //   panel: <FollowingTab />,
+          //   disabled: false,
+          // },
           {
             id: "vods",
             title: "Vods",
             panel: <VodsTab />,
+            disabled: !selectedUuid,
           },
         ]}
       />

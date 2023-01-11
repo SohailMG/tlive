@@ -1,7 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import { AppContext } from "./context/AppContext";
 import { TwitchAPI } from "./TwitchApi";
-import { VscLinkExternal } from "react-icons/vsc";
 
 const twitchApi = new TwitchAPI();
 function VodsTab() {
@@ -27,78 +26,49 @@ function VodsTab() {
       </div>
     );
 
-  const formatImageStr = (url) => {
-    console.log(url);
-    return url;
-  };
-
-  const rows = ["Thumbnail", "Title", "Date", "Views", "Time"];
-
   return (
-    <div className="-mx-4 sm:-mx-8 px-4 sm:px-8 py-4 overflow-x-auto max-w-[800px]">
-      <div className="inline-block min-w-full shadow rounded-lg overflow-hidden">
-        {vods && (
-          <Pagination
-            pagination={vods.pagination}
-            setPagination={setPagination}
-          />
-        )}
-        <table className="min-w-full leading-normal">
-          <thead>
-            <tr>
-              {rows.map((row, i) => (
-                <th
-                  key={i}
-                  className="px-5 py-3 border-b-2 border-gray-700 bg-gray-600 text-center text-xs font-semibold text-green-200 uppercase tracking-wider"
-                >
-                  {row}
-                </th>
-              ))}
-            </tr>
-          </thead>
-          {vods && (
-            <tbody>
-              {vods.data.map((vod, index) => (
-                <tr
-                  key={index}
-                  onClick={() =>
-                    window.open(
-                      `https://sohailmg.github.io/tlive/player.html?id=${vod.id}`,
-                      "_blank"
-                    )
-                  }
-                  className="text-center  cursor-pointer hover:bg-gray-900 hover:scale-95 transition-all duration-150 ease-in-out"
-                >
-                  <td className=" px-5 py-5 border-b border-gray-700 bg-gray-600 text-sm font-semibold text-gray-200">
-                    <img
-                      src={vod.thumbnail_url.replace(
-                        "-%{width}x%{height}",
-                        "-500x300"
-                      )}
-                      className="w-[150px]"
-                      onError={(e) => (e.target.src = fallBackImg)}
-                      alt=""
-                    />
-                  </td>
-                  <td className=" px-5 py-5 border-b border-gray-700 bg-gray-600 text-[12px] text-left max-w-[200px]font-semibold text-gray-200">
-                    {vod.title}
-                  </td>
-                  <td className=" px-5 py-5 border-b border-gray-700 bg-gray-600 text-sm font-semibold text-gray-200">
-                    {daysFrom(vod.created_at)}
-                  </td>
-                  <td className=" px-5 py-5 border-b border-gray-700 bg-gray-600 text-[15px] font-semibold text-gray-200">
-                    <small className="text-red-400 font-semibold ">
-                      {readableFormat(Number(vod.view_count))}
-                    </small>
-                  </td>
-                  <td className=" px-5 py-5 border-b border-gray-700 bg-gray-600 text-sm font-semibold text-gray-200">
-                    <p className="text-[12px] text-green-200">{vod.duration}</p>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          )}
-        </table>
+    <div>
+      {vods && vods && (
+        <Pagination
+          pagination={vods.pagination}
+          setPagination={setPagination}
+        />
+      )}
+      <div className="grid grid-cols-3 gap-2">
+        {vods &&
+          vods.data.map((vod, index) => (
+            <div
+              key={index}
+              onClick={() =>
+                window.open(
+                  `https://sohailmg.github.io/tlive/player.html?id=${vod.id}`,
+                  "_blank"
+                )
+              }
+              title={vod.title}
+              className="w-[250px] cursor-pointer hover:scale-105 transition-all duration-200 ease-in-out"
+            >
+              <img
+                src={vod.thumbnail_url.replace(
+                  "-%{width}x%{height}",
+                  "-500x300"
+                )}
+                className="w-[250px] h-[150px] rounded"
+                onError={(e) => (e.target.src = fallBackImg)}
+                alt=""
+              />
+              <div
+                className="p-2 text-red-500 rounded"
+                style={{ background: "indigo" }}
+              >
+                <h3>{daysFrom(vod.created_at)}</h3>
+                <p className="text-white">
+                  {readableFormat(Number(vod.view_count)) + " views"}
+                </p>
+                <p className="text-gray-400 text-[10px]">{vod.duration}</p>
+              </div>
+            </div>
+          ))}
       </div>
     </div>
   );

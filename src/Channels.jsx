@@ -2,7 +2,7 @@ import React from "react";
 import Channel from "./Channel";
 import { Button, Spinner } from "@blueprintjs/core";
 const rows = ["Channel", "Category", "Status", "Vods", "Remove"];
-const Channels = ({ channels, loading, hideCheckBox }) => {
+const Channels = ({ channels, loading, hideCheckBox, selectedLayout }) => {
   if (loading)
     return (
       <div className="flex items-center justify-center text-green-200">
@@ -19,7 +19,9 @@ const Channels = ({ channels, loading, hideCheckBox }) => {
   }
 
   return (
-    <div className="grid grid-cols-3">
+    <div
+      className={`grid ${selectedLayout === 3 ? "grid-cols-3" : "grid-cols-2"}`}
+    >
       {channels.map((channel, i) => (
         <Channel hideCheckBox={hideCheckBox} key={i} channel={channel} />
       ))}
