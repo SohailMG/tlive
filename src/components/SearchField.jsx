@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
-import { TwitchAPI } from "./TwitchApi";
-import { addToDb, auth } from "./firebase";
-import { AppContext } from "./context/AppContext";
+import { TwitchAPI } from "../TwitchApi";
+import { addToDb, auth } from "../firebase";
+import { AppContext } from "../context/AppContext";
 import { useAuthState } from "react-firebase-hooks/auth";
 
 const twitchApi = new TwitchAPI();

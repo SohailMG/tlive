@@ -1,7 +1,7 @@
 import { Tab, Tabs } from "@blueprintjs/core";
 import React, { useContext, useState } from "react";
-import { _envs } from "./popup";
-import { AppContext } from "./context/AppContext";
+import { _envs } from "../popup";
+import { AppContext } from "../context/AppContext";
 function ContentTabs({ tabs }) {
   const { selectedTab, updateSelectedTab } = useContext(AppContext);
 

@@ -5,8 +5,8 @@ import { MdSlowMotionVideo } from "react-icons/md";
 import { GoPrimitiveDot } from "react-icons/go";
 import { TiMediaRecord } from "react-icons/ti";
 import { FaPhotoVideo } from "react-icons/fa";
-import { AppContext } from "./context/AppContext";
-import { auth, removeChannelFromDb } from "./firebase";
+import { AppContext } from "../context/AppContext";
+import { auth, removeChannelFromDb } from "../firebase";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { daysFrom, readableFormat } from "./VodsTab";
 function Channel({ channel, hideCheckBox }) {

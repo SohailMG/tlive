@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { BsTwitch } from "react-icons/bs";
-import { _envs } from "./popup";
 import SearchField from "./SearchField";
 
 const _userId = localStorage.getItem("userId");

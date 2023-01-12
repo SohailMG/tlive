@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
-import { auth, app } from "./firebase";
+import { auth, app } from "../firebase";
 import {
   onAuthStateChanged,
   signInAnonymously,
@@ -16,7 +16,7 @@ import {
   Tab,
   Tabs,
 } from "@blueprintjs/core";
-import { AppContext } from "./context/AppContext";
+import { AppContext } from "../context/AppContext";
 import { BiShowAlt } from "react-icons/bi";
 import { useAuthState } from "react-firebase-hooks/auth";
 

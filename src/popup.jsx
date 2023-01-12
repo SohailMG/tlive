@@ -4,24 +4,18 @@ import { doc, onSnapshot } from "firebase/firestore";
 import React, { useContext, useEffect, useState } from "react";
 import { render } from "react-dom";
 import { useAuthState } from "react-firebase-hooks/auth";
-import AuthWrapper from "./AuthWrapper";
-import Channels from "./Channels";
-import { BiGridHorizontal, BiGridSmall } from "react-icons/bi";
-import ContentTabs from "./ContentTabs";
-import FollowingTab from "./FollowingTab";
-import SearchField from "./SearchField";
+import AuthWrapper from "./components/AuthWrapper";
+import Channels from "./components/Channels";
+import ContentTabs from "./components/ContentTabs";
+import SearchField from "./components/SearchField";
 import { TwitchAPI } from "./TwitchApi";
-import VodsTab from "./VodsTab";
+import VodsTab from "./components/VodsTab";
 import { AppContext, AppProvider } from "./context/AppContext";
 import { auth, db, removeChannelsFromDb } from "./firebase";
 import "./tailwind.css";
+import { LayoutGrids } from "./components/LayoutGrids";
 
 const twitchApi = new TwitchAPI();
-export const _envs = {
-  CLIENT_ID: "glyuelrdyfb5jf5qejh4mwsucwrqhq",
-  CLIENT_SECRET: "jhoxxp7j1vkwdz7qqa0t5h5yfs20td",
-  ACCESS_TOKEN: "8uhzngjj8p88lo20achk8lm6rbo4p7",
-};
 
 // chrome.runtime.sendMessage({ cachedList: cachedList }, function (response) {
 //   console.log(response.message);
@@ -114,29 +108,6 @@ function SavedPanel({ loading, liveChannels }) {
     </>
   );
 }
-
-export const LayoutGrids = ({ selectedLayout, setSelectedLayout }) => {
-  const grids = [
-    { num: 2, Icon: BiGridSmall },
-    { num: 3, Icon: BiGridHorizontal },
-  ];
-  return (
-    <div className="flex items-center ml-6">
-      {grids.map(({ Icon, num }) => (
-        <div
-          onClick={() => setSelectedLayout(num)}
-          className="p-1 cursor-pointer"
-        >
-          <Icon
-            size={24}
-            color={selectedLayout === num ? "white" : "darkGray"}
-            key={num}
-          />
-        </div>
-      ))}
-    </div>
-  );
-};
 
 export async function getLiveChannels(channels) {
   console.log("fetching live channels : ", channels);
