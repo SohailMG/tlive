@@ -17,13 +17,15 @@ import { getAuth } from "firebase/auth";
 
 // Your web app's Firebase configuration
 export const firebaseConfig = {
-  apiKey: "AIzaSyDgoVk8VfPgYtlXDIpcgwHf9AZxepDCxbA",
-  authDomain: "tlive-81354.firebaseapp.com",
-  projectId: "tlive-81354",
-  storageBucket: "tlive-81354.appspot.com",
-  messagingSenderId: "509339902080",
-  appId: "1:509339902080:web:57c95a2e1917e0c47c4665",
+  apiKey: process.env.FIREBASE_APIKEY,
+  authDomain: process.env.FIREBASE_AUTHDOMAIN,
+  projectId: process.env.FIREBASE_PROJECTID,
+  storageBucket: process.env.FIREBASE_STORAGEBUCKET,
+  messagingSenderId: process.env.FIREBASE_MESSAGESENDERID,
+  appId: process.env.FIREBASE_APPID,
 };
+
+console.log(process.env.FIREBASE_APIKEY);
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
