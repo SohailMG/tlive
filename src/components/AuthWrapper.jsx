@@ -70,6 +70,13 @@ function AuthWrapper({ children }) {
 
   return (
     <div className=" min-w-[800px] px-4 min-h-screen flex items-center justify-center flex-col space-y-4">
+      <div className="flex p-2">
+        <img
+          src="https://firebasestorage.googleapis.com/v0/b/tlive-81354.appspot.com/o/icons8-live-64.png?alt=media&token=68a009a0-e5bd-4d9f-8598-74187c1f01fe"
+          alt="Logo"
+        />
+        <h1 className="text-white font-bold self-end">TLive</h1>
+      </div>
       <Tabs
         className="min-w-[400px]"
         id="LoginTabs"
@@ -119,6 +126,22 @@ function SignUpForm({
   password,
   email,
 }) {
+  const [currPassword, setCurrPassword] = useState();
+  const [confirmPassword, setConfirmPassword] = useState();
+  const [errorMsg, setErrorMsg] = useState();
+
+  useEffect(() => {
+    if (confirmPassword) {
+      if (confirmPassword === currPassword) {
+        setErrorMsg("");
+        setPassword(currPassword);
+      } else {
+        setErrorMsg("Passwords do not match");
+        setPassword();
+      }
+    }
+  }, [confirmPassword, currPassword]);
+
   return (
     <>
       <div className=" flex flex-col space-y-4 ">
@@ -146,10 +169,23 @@ function SignUpForm({
             type="password"
             id="password"
             placeholder="Create Password"
-            onChange={(e) => setPassword(e.target.value)}
+            onChange={(e) => setCurrPassword(e.target.value)}
           />
         </FormGroup>
-        <p className="text-red-400 text-xs">{error}</p>
+        <FormGroup
+          label="Confirm Password"
+          className="text-white"
+          labelFor="confirmPassword"
+          labelInfo="(required)"
+        >
+          <InputGroup
+            type="password"
+            id="confirmPassword"
+            placeholder="Confirm Password"
+            onChange={(e) => setConfirmPassword(e.target.value)}
+          />
+        </FormGroup>
+        <p className="text-red-400 text-xs">{error ?? errorMsg}</p>
         <Button
           disabled={!password | !email}
           onClick={handleSignUp}

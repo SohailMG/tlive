@@ -20,7 +20,9 @@ const Channels = ({ channels, loading, hideCheckBox, selectedLayout }) => {
 
   return (
     <div
-      className={`grid grid-cols-${selectedLayout} transition-all transform duration-200 ease-in-out`}
+      className={`grid ${
+        selectedLayout === 2 ? "grid-cols-2" : `grid-cols-${selectedLayout}`
+      }`}
     >
       {channels.map((channel, i) => (
         <Channel hideCheckBox={hideCheckBox} key={i} channel={channel} />
@@ -30,20 +32,3 @@ const Channels = ({ channels, loading, hideCheckBox, selectedLayout }) => {
 };
 
 export default Channels;
-
-const Grid = ({ children, columns }) => {
-  const [prevColumns, setPrevColumns] = useState(columns);
-
-  return (
-    <div
-      className={`grid grid-cols-${columns} transition duration-500 ease-in-out transform`}
-      style={{
-        gridTemplateColumns: `repeat(${columns}, 1fr)`,
-        transition: prevColumns !== columns ? "all 0.5s ease" : "none",
-      }}
-      onTransitionEnd={() => setPrevColumns(columns)}
-    >
-      {children}
-    </div>
-  );
-};

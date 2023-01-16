@@ -46,7 +46,7 @@ render(<Popup />, document.getElementById("root"));
 function SavedPanel({ loading, liveChannels }) {
   const [hideOffline, setHideOffline] = useState(true);
   const [hideCheckBox, setHideCheckbox] = useState(true);
-  const [selectedLayout, setSelectedLayout] = useState(2);
+  const [selectedLayout, setSelectedLayout] = useState(1);
   const { removeBatch, updateRemoveBatch } = useContext(AppContext);
   const [user] = useAuthState(auth);
 

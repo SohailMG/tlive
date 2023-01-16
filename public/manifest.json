@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "TLive",
-  "description": "A twitch live channel viewier",
+  "description": "TLive: the Chrome extension for seamless Twitch navigation. Live channels & VODs at your fingertips!",
   "version": "1.0",
   "permissions": ["storage"],
   "action": {
@@ -18,7 +18,6 @@
     "128": "/icons/icons8-live-64.png"
   },
   "background": {
-    "service_worker": "background.js",
-    "type": "module"
+    "service_worker": "background.js"
   }
 }
