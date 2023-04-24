@@ -2,7 +2,7 @@ export class TwitchAPI {
   constructor() {
     this.clientSecret = process.env.TWITCH_CLIENT_SECRET;
     this.clientId = process.env.TWITCH_CLIENT_ID;
-    this.accessToken = process.env.TWITCH_ACCESS_TOKEN;
+    this.accessToken = "vmlqj02wp6usn5w6lys7hq5ysk7ybl";
   }
 
   async searchChannel(query) {
