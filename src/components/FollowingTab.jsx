@@ -18,12 +18,12 @@ function FollowingTab() {
   return (
     <div className="flex flex-col space-y-6 items-center justify-center">
       <LinkWithTwitch />
-      <SearchField
+      {/* <SearchField
         onResultsClick={(channel) => {
           localStorage.setItem("userId", channel.id);
           setUserId(channel.id);
         }}
-      />
+      /> */}
       <p>{userId}</p>
     </div>
   );

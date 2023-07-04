@@ -14,6 +14,7 @@ import { AppContext, AppProvider } from "./context/AppContext";
 import { auth, db, removeChannelsFromDb } from "./firebase";
 import "./tailwind.css";
 import { LayoutGrids } from "./components/LayoutGrids";
+import FollowingTab from "./components/FollowingTab";
 
 const twitchApi = new TwitchAPI();
 
@@ -187,12 +188,12 @@ function PopupPage() {
             title: "Saved",
             panel: <SavedPanel liveChannels={liveChannels} loading={loading} />,
           },
-          // {
-          //   id: "following",
-          //   title: "Following",
-          //   panel: <FollowingTab />,
-          //   disabled: false,
-          // },
+          {
+            id: "following",
+            title: "Following",
+            panel: <FollowingTab />,
+            disabled: false,
+          },
           {
             id: "vods",
             title: "Vods",
