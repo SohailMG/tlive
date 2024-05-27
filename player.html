@@ -15,6 +15,7 @@
       src=""
       height="100%"
       width="100%"
+      layout=""
       allowfullscreen
     >
     </iframe>
@@ -27,10 +28,15 @@
 
       // Get the value of the "channel" parameter
       let id = params.get("id");
+      let withChat = params.get("chat");
       console.log(id);
       // Use the channel value to construct the src attribute of the iframe
       let iframeSrc = `https://player.twitch.tv/?video=${id}&parent=sohailmg.github.io&muted=true`;
       document.getElementById("twitch-iframe").src = iframeSrc;
+      if(withChat){
+      document.getElementById("twitch-iframe").layout = "video-with-chat";
+
+      }
     </script>
   </body>
 </html>
